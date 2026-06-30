@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS &mdash; The AI That Knows the Perfect Moment</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kairos.css">
+</head>
+<body>
+
+<!-- Ambient background -->
+<div class="ambient">
+  <div class="orb-ambient"></div>
+  <div class="orb-ambient"></div>
+  <div class="orb-ambient"></div>
+</div>
+<canvas id="particleCanvas" role="presentation" aria-hidden="true"></canvas>
+
+<!-- ═══ LANDING PAGE ═══ -->
+<div class="page active" id="landingPage">
+
+  <nav class="landing-nav">
+    <div class="nav-logo">KAIROS</div>
+    <div class="nav-links">
+      <span class="nav-link">Features</span>
+      <span class="nav-link">How it works</span>
+      <span class="nav-link">Manifesto</span>
+    </div>
+    <button class="nav-cta" onclick="launchApp()">Launch Mission Control</button>
+  </nav>
+
+  <section id="landing">
+    <div class="hero">
+      <div class="hero-orb-wrap">
+        <div class="hero-orb-ring3"></div>
+        <div class="hero-orb-ring2"></div>
+        <div class="hero-orb-ring"></div>
+        <div class="hero-orb"></div>
+      </div>
+      <div class="hero-eyebrow">AI Execution Operating System &middot; v1.0</div>
+      <h1 class="hero-title">Meet <span class="k">KAIROS</span></h1>
+      <p class="hero-subtitle">The AI that doesn't remind you <em>what to do</em>. It ensures you actually <em>get it done</em>.</p>
+      <div class="hero-cta-row">
+        <button class="btn-launch" onclick="launchApp()">&#x1F680; Launch Mission Control</button>
+        <button class="btn-ghost">Watch the demo</button>
+      </div>
+    </div>
+
+    <div class="ticker-row">
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#4F8EF7;"></div>AI Interventions</div>
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#8B5CF6;"></div>Mission Breakdown</div>
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#34D399;"></div>Future Simulator</div>
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#C8A96E;"></div>Crisis Mode</div>
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#22D3EE;"></div>Focus Sessions</div>
+      <div class="ticker-pill"><div class="ticker-dot" style="background:#FBBF24;"></div>Nightly Reflection</div>
+    </div>
+  </section>
+
+  <section style="padding:80px 80px 0; max-width:1200px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:48px;">
+      <div style="font-size:11px; letter-spacing:4px; color:var(--text3); font-family:'JetBrains Mono',monospace; margin-bottom:12px;">WHAT KAIROS DOES</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:36px; letter-spacing:-1px;">Everything is a Mission. Nothing is a task.</h2>
+    </div>
+    <div class="preview-section" style="margin-top:0;">
+      <div class="preview-card">
+        <div class="pc-icon">&#x1F9E0;</div>
+        <div class="pc-title">AI Brain</div>
+        <div class="pc-desc">Always-active intelligence that analyzes your patterns, energy, and behavior to predict what you'll miss &mdash; before you miss it.</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-icon">&#x26A1;</div>
+        <div class="pc-title">AI Interventions</div>
+        <div class="pc-desc">KAIROS interrupts only when necessary. Every alert shows probability, reason, estimated time, and exactly what action to take.</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-icon">&#x1F52E;</div>
+        <div class="pc-title">Future Simulator</div>
+        <div class="pc-desc">See two versions of your week &mdash; what happens if you follow KAIROS vs. if you ignore it. Real consequences, visualized.</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-icon">&#x1F6A8;</div>
+        <div class="pc-title">Crisis Mode</div>
+        <div class="pc-desc">When a deadline is dangerously close, the interface transforms. One mission. One timer. One button. Zero distractions.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="landing-quote" style="margin-top:80px;">
+    <p class="quote-text">"Time isn't the most valuable resource. <span>The right moment is.</span> That's what Kairos means &mdash; and that's what our AI protects."</p>
+    <div style="margin-top:32px;">
+      <button class="btn-launch" onclick="launchApp()">&#x1F680; Launch Mission Control</button>
+    </div>
+  </div>
+
+</div><!-- /landingPage -->
+
+
+<!-- ═══ APP SHELL ═══ -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sb-logo">KAIROS</div>
+
+    <div class="sb-section">Core</div>
+    <div class="sb-item active" onclick="switchTab('dashboard', this)"><span class="sb-icon">&#x1F6F8;</span> Mission Control</div>
+    <div class="sb-item" onclick="switchTab('missions', this)"><span class="sb-icon">&#x1F3AF;</span> Missions <span class="sb-badge">3</span></div>
+    <div class="sb-item" onclick="switchTab('timeline', this)"><span class="sb-icon">&#x1F4C5;</span> Timeline</div>
+
+    <div class="sb-section" style="margin-top:16px;">Intelligence</div>
+    <div class="sb-item" onclick="switchTab('future', this)"><span class="sb-icon">&#x1F52E;</span> Future Simulator</div>
+    <div class="sb-item" onclick="switchTab('analytics', this)"><span class="sb-icon">&#x1F4CA;</span> Life Analytics</div>
+    <div class="sb-item" onclick="switchTab('reflection', this)"><span class="sb-icon">&#x1F319;</span> Nightly Reflection</div>
+
+    <div class="sb-section" style="margin-top:16px;">Modes</div>
+    <div class="sb-item" onclick="openFocus()"><span class="sb-icon">&#x1F3AF;</span> Focus Mode</div>
+    <div class="sb-item" onclick="openCrisis()"><span class="sb-icon">&#x1F6A8;</span> Crisis Mode</div>
+    <div class="sb-item" onclick="switchTab('achievements', this)"><span class="sb-icon">&#x1F3C6;</span> Achievements</div>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar">A</div>
+        <div>
+          <div class="sb-uname">Arjun Mehra</div>
+          <div class="sb-ulabel">Level 12 &middot; Mission Commander</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- ─── MISSION CONTROL ─── -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">Monday, 14 July &middot; 09:41 AM</div>
+          <div class="tb-title">Mission Control</div>
+        </div>
+        <div class="topbar-right">
+          <button class="tb-btn" onclick="openCrisis()">&#x1F6A8; Crisis Mode</button>
+          <button class="tb-btn" onclick="openFocus()">&#x1F3AF; Focus Mode</button>
+          <button class="tb-btn primary" onclick="switchTab('missions', null)">+ New Mission</button>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <!-- Orb / Momentum -->
+        <div class="glass glass-glow-blue orb-card">
+          <div class="dash-orb-wrap">
+            <div class="dash-orb-ring2"></div>
+            <div class="dash-orb-ring"></div>
+            <div class="dash-orb" id="dashOrb"></div>
+          </div>
+          <div class="momentum-value" id="momentumVal">91</div>
+          <div class="momentum-label">Momentum Score</div>
+          <div style="margin-top:16px; font-size:12px; color:var(--text2); line-height:1.7; max-width:180px;">
+            Your energy peaks between <em style="color:var(--gold2);">8&ndash;11 AM</em>. Best window for deep work is <em style="color:var(--gold2);">right now</em>.
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="glass metrics-card">
+          <div class="metrics-title">Today's Signal</div>
+          <div class="metric-row">
+            <div class="metric-icon">&#x1F9E0;</div>
+            <div class="metric-info">
+              <div class="metric-name">Focus</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:82%; background:linear-gradient(90deg,#4F8EF7,#8B5CF6);"></div></div>
+            </div>
+            <div class="metric-val">82%</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-icon">&#x26A1;</div>
+            <div class="metric-info">
+              <div class="metric-name">Energy</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:74%; background:linear-gradient(90deg,#FBBF24,#F59E0B);"></div></div>
+            </div>
+            <div class="metric-val">74%</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-icon">&#x1F525;</div>
+            <div class="metric-info">
+              <div class="metric-name">Urgency</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:91%; background:linear-gradient(90deg,#F87171,#EF4444);"></div></div>
+            </div>
+            <div class="metric-val">91%</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-icon">&#x1F60C;</div>
+            <div class="metric-info">
+              <div class="metric-name">Stress</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:38%; background:linear-gradient(90deg,#34D399,#10B981);"></div></div>
+            </div>
+            <div class="metric-val">38%</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-icon">&#x1F4C8;</div>
+            <div class="metric-info">
+              <div class="metric-name">Progress</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:65%; background:linear-gradient(90deg,#22D3EE,#06B6D4);"></div></div>
+            </div>
+            <div class="metric-val">65%</div>
+          </div>
+          <div class="metric-row" style="margin-bottom:0;">
+            <div class="metric-icon">&#x1F3AF;</div>
+            <div class="metric-info">
+              <div class="metric-name">Success Probability</div>
+              <div class="metric-bar"><div class="metric-fill" style="width:88%; background:linear-gradient(90deg,#C8A96E,#E8C97E);"></div></div>
+            </div>
+            <div class="metric-val" style="color:var(--gold);">88%</div>
+          </div>
+        </div>
+
+        <!-- AI Brain -->
+        <div class="glass brain-card">
+          <div class="brain-header">
+            <div class="brain-title">AI Brain</div>
+            <div class="brain-live"><div class="brain-live-dot"></div>LIVE</div>
+          </div>
+          <div class="brain-insights" id="brainInsights">
+            <div class="insight-chip positive">
+              <div class="insight-label">Pattern Detected</div>
+              You solve coding problems <em>faster after 9 AM</em>. Right now is your optimal window.
+            </div>
+            <div class="insight-chip alert">
+              <div class="insight-label">Risk Alert</div>
+              You are likely to <em>miss tomorrow's React deadline</em>. You've delayed it twice.
+            </div>
+            <div class="insight-chip">
+              <div class="insight-label">Time Insight</div>
+              Starting the API integration <em>now saves your weekend</em>. 3h today = free Saturday.
+            </div>
+            <div class="insight-chip alert">
+              <div class="insight-label">Stress Forecast</div>
+              Your <em>stress is increasing</em> if you skip the 11 AM session. Pattern from last week.
+            </div>
+            <div class="insight-chip positive">
+              <div class="insight-label">Momentum</div>
+              You're in a <em>7-day streak</em>. Don't break it &mdash; history shows streaks boost output 41%.
+            </div>
+          </div>
+        </div>
+
+        <!-- Interventions -->
+        <div class="glass intervention-card">
+          <div class="ic-header">
+            <div class="brain-title">AI Interventions</div>
+            <div class="ic-badge"><div class="ic-badge-dot"></div>3 Active</div>
+          </div>
+          <div class="intervention-list">
+            <div class="intervention-item">
+              <div class="ii-prob">
+                <div class="ii-prob-val">81%</div>
+                <div class="ii-prob-label">MISS</div>
+              </div>
+              <div class="ii-info">
+                <div class="ii-name">React Project &mdash; API Integration</div>
+                <div class="ii-reason">You've delayed this 3 times. Average delay on similar tasks: 2.4 days. Deadline: Tomorrow 11:59 PM.</div>
+                <div class="ii-meta">
+                  <div class="ii-tag">&#x23F1; 2h 15m estimated</div>
+                  <div class="ii-tag gold">&#x26A1; Start by 7 PM &rarr; 94% success</div>
+                </div>
+              </div>
+              <div class="ii-actions">
+                <button class="ii-btn-start" onclick="openFocus()">Start Now</button>
+                <button class="ii-btn-later">Later</button>
+              </div>
+            </div>
+            <div class="intervention-item">
+              <div class="ii-prob" style="background:rgba(251,191,36,0.1);">
+                <div class="ii-prob-val" style="color:var(--amber);">62%</div>
+                <div class="ii-prob-label" style="color:rgba(251,191,36,0.5);">MISS</div>
+              </div>
+              <div class="ii-info">
+                <div class="ii-name">Design Systems Assignment</div>
+                <div class="ii-reason">Research phase not started. You typically underestimate design tasks by 40%. Due in 38 hours.</div>
+                <div class="ii-meta">
+                  <div class="ii-tag">&#x23F1; 3h 30m estimated</div>
+                  <div class="ii-tag gold">&#x1F4C5; Schedule after lunch</div>
+                </div>
+              </div>
+              <div class="ii-actions">
+                <button class="ii-btn-start">Schedule</button>
+                <button class="ii-btn-later">Dismiss</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /dashboard-grid -->
+    </div><!-- /tab-dashboard -->
+
+    <!-- ─── MISSIONS ─── -->
+    <div class="tab-content" id="tab-missions">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">AI-Planned &middot; 8 Active</div>
+          <div class="tb-title">Missions</div>
+        </div>
+        <div class="topbar-right">
+          <button class="tb-btn primary" onclick="addMission()">+ New Mission</button>
+        </div>
+      </div>
+
+      <div class="missions-header-row">
+        <div class="filter-pill active">All</div>
+        <div class="filter-pill">Critical</div>
+        <div class="filter-pill">In Progress</div>
+        <div class="filter-pill">Pending</div>
+        <div class="filter-pill">Accomplished</div>
+      </div>
+
+      <div class="mission-card critical glass">
+        <div class="mc-row1">
+          <div class="mc-name">&#x1F534; React Full-Stack Project</div>
+          <div class="mc-status critical">CRITICAL EVENT</div>
+        </div>
+        <div class="mc-desc">Build a full-stack React app with authentication, dashboard, and Supabase API. Deadline: Tomorrow 11:59 PM.</div>
+        <div class="mc-meta">
+          <div class="mc-tag">&#x1F4C5; Due Tomorrow</div>
+          <div class="mc-tag">&#x23F1; 6h remaining</div>
+          <div class="mc-tag" style="color:var(--red);">&#x26A0;&#xFE0F; 81% miss probability</div>
+        </div>
+        <div class="mc-progress-wrap">
+          <div class="mc-prog-label"><span>Mission Progress</span><span>58%</span></div>
+          <div class="mc-prog-bar"><div class="mc-prog-fill" style="width:58%; background:linear-gradient(90deg,#F87171,#FBBF24);"></div></div>
+        </div>
+        <div class="breakdown-chain">
+          <div class="bc-item"><div class="bc-dot done"></div><span class="bc-name done">Research &amp; Setup</span><div class="bc-time">45m</div><div class="bc-conf" style="margin-left:auto;">&#x2713;</div></div>
+          <div class="bc-item"><div class="bc-dot done"></div><span class="bc-name done">Create Project Structure</span><div class="bc-time">30m</div><div class="bc-conf" style="margin-left:auto;">&#x2713;</div></div>
+          <div class="bc-item"><div class="bc-dot done"></div><span class="bc-name done">Navbar &amp; Routing</span><div class="bc-time">40m</div><div class="bc-conf" style="margin-left:auto;">&#x2713;</div></div>
+          <div class="bc-item"><div class="bc-dot active"></div><span class="bc-name" style="color:var(--blue);">Authentication Module</span><div class="bc-time">1h 15m</div><div class="bc-conf" style="margin-left:auto; color:var(--blue);">AI: 92%</div></div>
+          <div class="bc-item"><div class="bc-dot pending"></div><span class="bc-name">Dashboard UI</span><div class="bc-time">1h 30m</div><div class="bc-conf" style="margin-left:auto;">AI: 87%</div></div>
+          <div class="bc-item"><div class="bc-dot pending"></div><span class="bc-name">API Integration</span><div class="bc-time">2h 15m</div><div class="bc-conf" style="margin-left:auto; color:var(--amber);">AI: 73%</div></div>
+          <div class="bc-item"><div class="bc-dot pending"></div><span class="bc-name">Testing &amp; Deployment</span><div class="bc-time">1h</div><div class="bc-conf" style="margin-left:auto;">AI: 89%</div></div>
+        </div>
+      </div>
+
+      <div class="mission-card high glass">
+        <div class="mc-row1">
+          <div class="mc-name">&#x1F7E1; Design Systems Assignment</div>
+          <div class="mc-status active">IN PROGRESS</div>
+        </div>
+        <div class="mc-desc">Complete Figma component library with atomic design principles and accessibility audit.</div>
+        <div class="mc-meta">
+          <div class="mc-tag">&#x1F4C5; Due Wed 5 PM</div>
+          <div class="mc-tag">&#x23F1; 38h remaining</div>
+          <div class="mc-tag" style="color:var(--amber);">&#x26A1; 62% miss probability</div>
+        </div>
+        <div class="mc-progress-wrap">
+          <div class="mc-prog-label"><span>Mission Progress</span><span>22%</span></div>
+          <div class="mc-prog-bar"><div class="mc-prog-fill" style="width:22%; background:linear-gradient(90deg,#FBBF24,#C8A96E);"></div></div>
+        </div>
+      </div>
+
+      <div class="mission-card medium glass">
+        <div class="mc-row1">
+          <div class="mc-name">&#x1F535; ML Model &mdash; Image Classification</div>
+          <div class="mc-status pending">SCHEDULED</div>
+        </div>
+        <div class="mc-desc">Train and evaluate CNN model on CIFAR-10. Achieve &gt;90% test accuracy. Submit Jupyter notebook.</div>
+        <div class="mc-meta">
+          <div class="mc-tag">&#x1F4C5; Due Fri 11:59 PM</div>
+          <div class="mc-tag">&#x23F1; 86h remaining</div>
+          <div class="mc-tag" style="color:var(--green);">&#x2705; 28% miss probability</div>
+        </div>
+        <div class="mc-progress-wrap">
+          <div class="mc-prog-label"><span>Mission Progress</span><span>5%</span></div>
+          <div class="mc-prog-bar"><div class="mc-prog-fill" style="width:5%; background:linear-gradient(90deg,#4F8EF7,#22D3EE);"></div></div>
+        </div>
+      </div>
+
+      <div class="mission-card done glass">
+        <div class="mc-row1">
+          <div class="mc-name">&#x2705; Database Schema Design</div>
+          <div class="mc-status completed">ACCOMPLISHED</div>
+        </div>
+        <div class="mc-desc">Designed normalized PostgreSQL schema with indexes. Submitted and approved by mentor.</div>
+        <div class="mc-meta">
+          <div class="mc-tag">&#x1F4C5; Completed Yesterday</div>
+          <div class="mc-tag">&#x2B50; +350 XP earned</div>
+        </div>
+        <div class="mc-progress-wrap">
+          <div class="mc-prog-label"><span>Mission Progress</span><span>100%</span></div>
+          <div class="mc-prog-bar"><div class="mc-prog-fill" style="width:100%; background:linear-gradient(90deg,#34D399,#10B981);"></div></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-missions -->
+
+    <!-- ─── TIMELINE ─── -->
+    <div class="tab-content" id="tab-timeline">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">Monday &middot; AI-Optimized Schedule</div>
+          <div class="tb-title">Timeline</div>
+        </div>
+        <div class="topbar-right">
+          <button class="tb-btn">&larr; Yesterday</button>
+          <button class="tb-btn primary">Today</button>
+          <button class="tb-btn">Tomorrow &rarr;</button>
+        </div>
+      </div>
+      <div class="glass" style="padding:24px; overflow-x:auto;">
+        <div class="timeline-wrap">
+          <div class="timeline-ruler">
+            <div></div>
+            <div class="tl-label">6</div><div class="tl-label">7</div><div class="tl-label">8</div>
+            <div class="tl-label">9</div><div class="tl-label">10</div><div class="tl-label">11</div>
+            <div class="tl-label">12</div><div class="tl-label">13</div><div class="tl-label">14</div>
+            <div class="tl-label">15</div><div class="tl-label">16</div><div class="tl-label">17</div>
+            <div class="tl-label">18</div><div class="tl-label">19</div><div class="tl-label">20</div>
+            <div class="tl-label">21</div><div class="tl-label">22</div><div class="tl-label">23</div>
+            <div class="tl-label">0</div><div class="tl-label">1</div><div class="tl-label">2</div>
+            <div class="tl-label">3</div><div class="tl-label">4</div><div class="tl-label">5</div>
+          </div>
+          <div class="timeline-lanes">
+            <div class="tl-lane">
+              <div class="tl-lane-label">Morning</div>
+              <div class="tl-grid-bg">
+                <div class="tl-block green" style="left:180px; width:120px;">&#x1F3C3; Workout</div>
+                <div class="tl-block blue" style="left:360px; width:180px;">&#x2615; Deep Focus &mdash; Auth</div>
+              </div>
+            </div>
+            <div class="tl-lane">
+              <div class="tl-lane-label">Afternoon</div>
+              <div class="tl-grid-bg">
+                <div class="tl-block gold" style="left:0px; width:120px;">&#x1F371; Lunch break</div>
+                <div class="tl-block blue" style="left:180px; width:240px;">&#x1F3A8; Design Systems Research</div>
+                <div class="tl-block purple" style="left:480px; width:120px;">&#x1F465; Study Group</div>
+              </div>
+            </div>
+            <div class="tl-lane">
+              <div class="tl-lane-label">Evening</div>
+              <div class="tl-grid-bg">
+                <div class="tl-now" style="left:60px;"></div>
+                <div class="tl-block red" style="left:60px; width:300px;">&#x1F525; React API Integration &mdash; CRITICAL</div>
+                <div class="tl-block blue" style="left:420px; width:120px;">&#x1F4CB; Review &amp; Push</div>
+              </div>
+            </div>
+            <div class="tl-lane">
+              <div class="tl-lane-label">Night</div>
+              <div class="tl-grid-bg">
+                <div class="tl-block green" style="left:60px; width:120px;">&#x1F319; Wind Down</div>
+                <div class="tl-block purple" style="left:240px; width:60px;">&#x1F52E; Reflect</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px; padding:12px 16px; background:rgba(79,142,247,0.08); border:1px solid rgba(79,142,247,0.2); border-radius:12px; font-size:12px; color:var(--text2);">
+          &#x1F916; <strong style="color:var(--blue);">AI Scheduler:</strong> I moved your Design Systems research to 1 PM when your analytical focus is higher. The React session starts at 7 PM &mdash; that's your peak problem-solving window based on 3 weeks of data.
+        </div>
+      </div>
+    </div><!-- /tab-timeline -->
+
+    <!-- ─── FUTURE SIMULATOR ─── -->
+    <div class="tab-content" id="tab-future">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">Multi-Agent Prediction Engine</div>
+          <div class="tb-title">Future Simulator</div>
+        </div>
+      </div>
+      <div style="text-align:center; padding:0 0 24px;">
+        <div style="font-size:14px; color:var(--text2); max-width:540px; margin:0 auto;">KAIROS simulates two versions of your next 72 hours based on your behavior patterns. See the real cost of procrastination &mdash; and the reward of action.</div>
+      </div>
+      <div class="future-grid">
+        <div class="future-panel dark">
+          <div class="fp-title" style="color:var(--red);">&#x274C; If You Ignore KAIROS</div>
+          <div class="fp-subtitle">Based on your past 3 weeks of delay patterns</div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F630;</div><div class="fp-item-text">React deadline missed</div><div class="fp-item-val" style="color:var(--red);">-40 XP</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F4C8;</div><div class="fp-item-text">Stress level spikes to</div><div class="fp-item-val" style="color:var(--red);">87%</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F634;</div><div class="fp-item-text">Average sleep drops to</div><div class="fp-item-val" style="color:var(--amber);">4.2 hrs</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F4C9;</div><div class="fp-item-text">Weekend productivity</div><div class="fp-item-val" style="color:var(--red);">Destroyed</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F625;</div><div class="fp-item-text">Cascade: 2 more deadlines at risk</div><div class="fp-item-val" style="color:var(--red);">High</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F3C6;</div><div class="fp-item-text">Streak broken</div><div class="fp-item-val" style="color:var(--red);">Day 0</div></div>
+        </div>
+        <div class="future-panel light">
+          <div class="fp-title" style="color:var(--green);">&#x2705; If You Follow KAIROS</div>
+          <div class="fp-subtitle">Starting tonight's 7 PM session as recommended</div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F3C6;</div><div class="fp-item-text">All deadlines completed</div><div class="fp-item-val" style="color:var(--green);">+580 XP</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F4C9;</div><div class="fp-item-text">Stress drops to</div><div class="fp-item-val" style="color:var(--green);">24%</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F634;</div><div class="fp-item-text">Sleep improves to</div><div class="fp-item-val" style="color:var(--green);">7.8 hrs</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F389;</div><div class="fp-item-text">Weekend</div><div class="fp-item-val" style="color:var(--green);">Completely free</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F525;</div><div class="fp-item-text">Streak continues</div><div class="fp-item-val" style="color:var(--green);">Day 8</div></div>
+          <div class="fp-item"><div class="fp-item-icon">&#x1F4AA;</div><div class="fp-item-text">Confidence level</div><div class="fp-item-val" style="color:var(--green);">Peak</div></div>
+        </div>
+      </div>
+      <button class="simulate-btn" onclick="simulateFuture()">&#x1F52E; Re-Simulate My Future</button>
+    </div><!-- /tab-future -->
+
+    <!-- ─── ANALYTICS ─── -->
+    <div class="tab-content" id="tab-analytics">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">Last 7 Days</div>
+          <div class="tb-title">Life Analytics</div>
+        </div>
+      </div>
+      <div class="analytics-grid">
+        <div class="glass stat-big">
+          <div class="sb-number" style="background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">91%</div>
+          <div class="sb-lbl">Weekly Momentum</div>
+          <div class="sb-change">&#x2191; +8% from last week</div>
+          <div class="mini-chart">
+            <div class="bar" style="height:50%; background:rgba(79,142,247,0.3);"></div>
+            <div class="bar" style="height:70%; background:rgba(79,142,247,0.4);"></div>
+            <div class="bar" style="height:55%; background:rgba(79,142,247,0.4);"></div>
+            <div class="bar" style="height:80%; background:rgba(79,142,247,0.5);"></div>
+            <div class="bar" style="height:65%; background:rgba(79,142,247,0.5);"></div>
+            <div class="bar" style="height:90%; background:rgba(79,142,247,0.7);"></div>
+            <div class="bar" style="height:95%; background:var(--blue);"></div>
+          </div>
+        </div>
+        <div class="glass stat-big">
+          <div class="sb-number" style="background:linear-gradient(135deg,var(--green),#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">84%</div>
+          <div class="sb-lbl">Mission Completion Rate</div>
+          <div class="sb-change">&#x2191; +12% from last week</div>
+          <div class="mini-chart">
+            <div class="bar" style="height:60%; background:rgba(52,211,153,0.3);"></div>
+            <div class="bar" style="height:55%; background:rgba(52,211,153,0.4);"></div>
+            <div class="bar" style="height:75%; background:rgba(52,211,153,0.4);"></div>
+            <div class="bar" style="height:70%; background:rgba(52,211,153,0.5);"></div>
+            <div class="bar" style="height:80%; background:rgba(52,211,153,0.5);"></div>
+            <div class="bar" style="height:78%; background:rgba(52,211,153,0.7);"></div>
+            <div class="bar" style="height:88%; background:var(--green);"></div>
+          </div>
+        </div>
+        <div class="glass stat-big">
+          <div class="sb-number" style="background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">4.2h</div>
+          <div class="sb-lbl">Avg Daily Deep Focus</div>
+          <div class="sb-change">&#x2191; +0.8h from last week</div>
+          <div class="mini-chart">
+            <div class="bar" style="height:45%; background:rgba(200,169,110,0.3);"></div>
+            <div class="bar" style="height:60%; background:rgba(200,169,110,0.4);"></div>
+            <div class="bar" style="height:50%; background:rgba(200,169,110,0.4);"></div>
+            <div class="bar" style="height:70%; background:rgba(200,169,110,0.5);"></div>
+            <div class="bar" style="height:65%; background:rgba(200,169,110,0.5);"></div>
+            <div class="bar" style="height:80%; background:rgba(200,169,110,0.7);"></div>
+            <div class="bar" style="height:90%; background:var(--gold);"></div>
+          </div>
+        </div>
+        <div class="glass stat-big">
+          <div class="sb-number" style="background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">32m</div>
+          <div class="sb-lbl">Average Task Delay</div>
+          <div class="sb-change" style="color:var(--red);">&#x2193; -18m from last week</div>
+          <div class="mini-chart">
+            <div class="bar" style="height:90%; background:rgba(248,113,113,0.3);"></div>
+            <div class="bar" style="height:85%; background:rgba(248,113,113,0.4);"></div>
+            <div class="bar" style="height:80%; background:rgba(248,113,113,0.4);"></div>
+            <div class="bar" style="height:70%; background:rgba(248,113,113,0.5);"></div>
+            <div class="bar" style="height:60%; background:rgba(248,113,113,0.5);"></div>
+            <div class="bar" style="height:50%; background:rgba(248,113,113,0.7);"></div>
+            <div class="bar" style="height:35%; background:var(--red);"></div>
+          </div>
+        </div>
+        <div class="glass chart-full">
+          <div class="chart-title">Weekly Momentum Trend</div>
+          <div class="week-bars">
+            <div class="week-col"><div class="week-bar" style="height:55px; background:linear-gradient(180deg,var(--blue),rgba(79,142,247,0.3));"></div><div class="week-label">MON</div></div>
+            <div class="week-col"><div class="week-bar" style="height:72px; background:linear-gradient(180deg,var(--blue),rgba(79,142,247,0.3));"></div><div class="week-label">TUE</div></div>
+            <div class="week-col"><div class="week-bar" style="height:48px; background:linear-gradient(180deg,var(--blue),rgba(79,142,247,0.3));"></div><div class="week-label">WED</div></div>
+            <div class="week-col"><div class="week-bar" style="height:85px; background:linear-gradient(180deg,var(--purple),rgba(139,92,246,0.3));"></div><div class="week-label">THU</div></div>
+            <div class="week-col"><div class="week-bar" style="height:78px; background:linear-gradient(180deg,var(--purple),rgba(139,92,246,0.3));"></div><div class="week-label">FRI</div></div>
+            <div class="week-col"><div class="week-bar" style="height:40px; background:linear-gradient(180deg,var(--text3),rgba(255,255,255,0.05));"></div><div class="week-label">SAT</div></div>
+            <div class="week-col"><div class="week-bar" style="height:95px; background:linear-gradient(180deg,var(--gold2),rgba(200,169,110,0.3)); border:1px solid rgba(200,169,110,0.4);"></div><div class="week-label" style="color:var(--gold);">TODAY</div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-analytics -->
+
+    <!-- ─── REFLECTION ─── -->
+    <div class="tab-content" id="tab-reflection">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">AI-Generated &middot; Sunday Night</div>
+          <div class="tb-title">Nightly Reflection</div>
+        </div>
+      </div>
+      <div class="glass reflection-card">
+        <div class="reflect-date">SUNDAY &middot; 13 JULY &middot; 10:47 PM</div>
+        <div class="reflect-body">
+          Today you accomplished <em>3 of 4 planned missions</em>. The fourth &mdash; API integration &mdash; was postponed twice, which matches your pattern of underestimating late-afternoon energy levels.<br><br>
+          Your <em>best focus window was 8 PM to 10:30 PM</em> &mdash; you completed the database schema 28% faster than your average. I've moved tomorrow's hardest mission into that window.<br><br>
+          You tend to <em>procrastinate after lunch</em> (12&ndash;2 PM). Tomorrow I've scheduled light review tasks there instead of deep work.<br><br>
+          One observation: you've been working <em>41 minutes longer per day</em> than last week, but your output quality scores are actually higher. You're hitting a productive rhythm &mdash; protect it.
+        </div>
+        <div class="reflect-tags">
+          <div class="reflect-tag">Peak: 8&ndash;10 PM</div>
+          <div class="reflect-tag">Weak: Post-lunch</div>
+          <div class="reflect-tag">Streak: Day 7</div>
+          <div class="reflect-tag">Tomorrow adjusted &#x2713;</div>
+        </div>
+      </div>
+      <div class="glass reflection-card">
+        <div class="reflect-date">SATURDAY &middot; 12 JULY &middot; 11:02 PM</div>
+        <div class="reflect-body">
+          You completed the Design Systems wireframes in <em>2h 10m</em> &mdash; 35% faster than predicted. Your visual problem-solving is improving. I've adjusted my time estimates for similar tasks downward by 20%.<br><br>
+          You skipped the morning workout. Historically, workout days show <em>23% higher focus scores</em>. I've blocked 7 AM tomorrow.
+        </div>
+        <div class="reflect-tags">
+          <div class="reflect-tag">Faster than predicted</div>
+          <div class="reflect-tag">Workout skipped</div>
+          <div class="reflect-tag">Model updated</div>
+        </div>
+      </div>
+    </div><!-- /tab-reflection -->
+
+    <!-- ─── ACHIEVEMENTS ─── -->
+    <div class="tab-content" id="tab-achievements">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="tb-eyebrow">Gamification &middot; Level 12</div>
+          <div class="tb-title">Achievements</div>
+        </div>
+      </div>
+      <div class="glass xp-card" style="margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px;">Level 12 &mdash; Mission Commander</div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold);">4,240 / 5,000 XP</div>
+        </div>
+        <div style="font-size:12px; color:var(--text2); margin-bottom:10px;">760 XP to Level 13 &mdash; Elite Operator</div>
+        <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:84%;"></div></div>
+        <div style="display:flex; gap:20px; margin-top:16px;">
+          <div style="text-align:center;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px;">38</div><div style="font-size:11px; color:var(--text3);">Missions Done</div></div>
+          <div style="text-align:center;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px; color:var(--gold);">7</div><div style="font-size:11px; color:var(--text3);">Day Streak</div></div>
+          <div style="text-align:center;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px; color:var(--green);">91%</div><div style="font-size:11px; color:var(--text3);">Success Rate</div></div>
+          <div style="text-align:center;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px; color:var(--purple);">12</div><div style="font-size:11px; color:var(--text3);">Badges</div></div>
+        </div>
+      </div>
+      <div class="achievements-grid">
+        <div class="ach-card unlocked" data-key="seven-day-streak" onclick="celebrateAch(this)"><div class="ach-icon">&#x1F525;</div><div class="ach-name">Seven Day Streak</div><div class="ach-desc">7 consecutive days of completing at least one mission</div></div>
+        <div class="ach-card unlocked" data-key="focus-master" onclick="celebrateAch(this)"><div class="ach-icon">&#x26A1;</div><div class="ach-name">Focus Master</div><div class="ach-desc">10+ hours of deep focus sessions completed</div></div>
+        <div class="ach-card unlocked" data-key="deadline-survivor" onclick="celebrateAch(this)"><div class="ach-icon">&#x1F3C6;</div><div class="ach-name">Deadline Survivor</div><div class="ach-desc">Completed 5 critical missions before the deadline</div></div>
+        <div class="ach-card unlocked" data-key="mission-commander" onclick="celebrateAch(this)"><div class="ach-icon">&#x1F680;</div><div class="ach-name">Mission Commander</div><div class="ach-desc">Reached Level 12 &mdash; top 5% of KAIROS users</div></div>
+        <div class="ach-card unlocked" data-key="ai-listener" onclick="celebrateAch(this)"><div class="ach-icon">&#x1F9E0;</div><div class="ach-name">AI Listener</div><div class="ach-desc">Followed 20 AI intervention recommendations</div></div>
+        <div class="ach-card unlocked" data-key="night-owl" onclick="celebrateAch(this)"><div class="ach-icon">&#x1F319;</div><div class="ach-name">Night Owl</div><div class="ach-desc">Completed 5 missions after 9 PM</div></div>
+        <div class="ach-card locked"><div class="ach-icon">&#x1F48E;</div><div class="ach-name">Flawless Week</div><div class="ach-desc">Complete every planned mission in a full 7-day week</div></div>
+        <div class="ach-card locked"><div class="ach-icon">&#x1F3AF;</div><div class="ach-name">Perfect Predictor</div><div class="ach-desc">AI time estimate matches within 5% for 10 missions</div></div>
+        <div class="ach-card locked"><div class="ach-icon">&#x1F31F;</div><div class="ach-name">Momentum Master</div><div class="ach-desc">Maintain 90%+ momentum for 14 consecutive days</div></div>
+      </div>
+    </div><!-- /tab-achievements -->
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+
+<!-- ═══ FOCUS MODE OVERLAY ═══ -->
+<div id="focusMode">
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <linearGradient id="focusGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#4F8EF7"/>
+        <stop offset="100%" stop-color="#8B5CF6"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="focus-ring-wrap">
+    <svg class="focus-ring-svg" viewBox="0 0 220 220">
+      <circle class="focus-ring-track" cx="110" cy="110" r="100"/>
+      <circle class="focus-ring-fill" id="focusRingFill" cx="110" cy="110" r="100"/>
+    </svg>
+    <div class="focus-timer">
+      <div class="focus-time-val" id="focusTimerVal">25:00</div>
+      <div class="focus-time-label">Remaining</div>
+    </div>
+  </div>
+  <div class="focus-mission-name">React API Integration</div>
+  <div class="focus-ai-coach">
+    You're in your <em>peak problem-solving window</em>. Close Slack, put on headphones, and trust the process. You've solved harder problems than this.
+  </div>
+  <div class="focus-controls">
+    <button class="focus-pause" id="focusBtn" onclick="toggleFocus()">&#x23F8; Pause</button>
+    <button class="focus-exit" onclick="closeFocus()" aria-label="Exit focus mode">&#x2715; Exit Focus</button>
+  </div>
+</div>
+
+
+<!-- ═══ CRISIS MODE OVERLAY ═══ -->
+<div id="crisisMode">
+  <button class="crisis-exit" onclick="closeCrisis()" aria-label="Exit crisis mode">&#x2715; Exit</button>
+  <div class="crisis-heartbeat">&#x1F497;</div>
+  <div class="crisis-title">CRITICAL EVENT</div>
+  <div class="crisis-mission">React Project &mdash; API Integration due in</div>
+  <div class="crisis-countdown" id="crisisCountdown">14:22:37</div>
+  <button class="crisis-start" onclick="openFocus(); closeCrisis();">START NOW</button>
+</div>
+
+
+<script>
+  // Point this at your deployed backend (e.g. Render URL) in production.
+  // For local dev, the backend defaults to http://localhost:5000/api.
+  window.KAIROS_API_BASE = window.KAIROS_API_BASE || 'http://localhost:5000/api';
+</script>
+<script src="kairos.js"></script>
+</body>
+</html>
